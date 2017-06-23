@@ -1,0 +1,24 @@
+{
+	"avengers":
+		[
+			{
+				"name": "Tony Stark",
+				"codename": "Ironman"
+			},
+			{
+				"name": "Steve Rogers",
+				"codename": "Captain America"
+			}
+		],
+	"xmen":
+		[
+			{
+				"name": "Scott Summers",
+				"codename": "Cyclops"
+			},
+			{
+				"name": "Jean Grey",
+				"codename": "Marvel Girl"
+			}
+		]
+}
