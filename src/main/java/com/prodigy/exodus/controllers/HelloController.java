@@ -1,5 +1,8 @@
 package com.prodigy.exodus.controllers;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api")
 public class HelloController {
 	
-	// Testing @Value properties - works here
-	@Value("${app.myprop}")
-	private String myprop;
+	private ExodusConfig exodusConfig;
 	
-	ExodusService exodusService = new ExodusService();
+	@Autowired
+	public HelloController(ExodusConfig exodusConfig) {
+		this.exodusConfig = exodusConfig;
+	}
 	
 	@RequestMapping(value = "/foo", method = RequestMethod.POST, consumes = "application/json")
 	public ExodusResponse postBody(@RequestBody Teams teams) {
-		log.info(myprop);
+		ExodusService exodusService = new ExodusService(exodusConfig);
+		log.info("App Name is " + exodusConfig.getAppname());
 		return exodusService.process(teams);
 	}
 

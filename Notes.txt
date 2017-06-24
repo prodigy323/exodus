@@ -1,0 +1,15 @@
+# Configuration File
+
+	- add @EnableConfigurationProperties(ConfigClass.class) to startup class
+	- add @Component & @ConfigurationProperties(prefix = "app.exodus") to Config class
+		- with fields and setters/getters
+	- add following code to each class that needs to have properties injected
+	
+		private final ExodusConfig exodusConfig;
+	
+		@Autowired
+    	public ExodusService(ExodusConfig exodusConfig) {
+        	this.exodusConfig = exodusConfig;
+    	}
+	
+	

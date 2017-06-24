@@ -16,20 +16,22 @@ import com.prodigy.exodus.models.Teams;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Service
 @Slf4j
-@Configuration
-@PropertySource("classpath:application.properties")
+@Service
 public class ExodusService {
 	
-	private ExodusConfig config;
-
+	private final ExodusConfig exodusConfig;
+	
+	@Autowired
+    public ExodusService(ExodusConfig exodusConfig) {
+        this.exodusConfig = exodusConfig;
+    }
+	
 	public ExodusResponse process(Teams teams) {
 		ExodusResponse exodusResponse = new ExodusResponse();
 		
 		// Testing @ConfigurationProperties
-		//String prop = config.getMyprop();
-		//log.info("inside service: " + myprop);
+		log.info("inside service: comment ==> " + exodusConfig.getComment());
 		
 		exodusResponse.setName(teams.getAvengers().get(0).getName());
 		exodusResponse.setCodename(teams.getAvengers().get(0).getCodename());
