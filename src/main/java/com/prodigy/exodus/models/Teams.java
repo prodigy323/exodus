@@ -1,6 +1,5 @@
 package com.prodigy.exodus.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;

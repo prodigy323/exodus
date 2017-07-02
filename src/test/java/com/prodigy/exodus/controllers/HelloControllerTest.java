@@ -1,4 +1,4 @@
-package com.prodigy.exodus;
+package com.prodigy.exodus.controllers;
 
 import static org.junit.Assert.fail;
 

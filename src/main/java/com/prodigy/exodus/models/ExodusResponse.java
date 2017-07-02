@@ -1,4 +1,4 @@
-package com.prodigy.exodus.services;
+package com.prodigy.exodus.models;
 
 import lombok.Data;
 

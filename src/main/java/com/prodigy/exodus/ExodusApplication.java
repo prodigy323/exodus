@@ -6,9 +6,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 import com.prodigy.exodus.config.ExodusConfig;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @SpringBootApplication
 @EnableConfigurationProperties(ExodusConfig.class)
 public class ExodusApplication {
