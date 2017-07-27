@@ -16,18 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-public class HelloController {
+public class ExodusController {
 	
+	@Autowired
 	private ExodusConfig exodusConfig;
 	
 	@Autowired
-	public HelloController(ExodusConfig exodusConfig) {
-		this.exodusConfig = exodusConfig;
-	}
+	private ExodusService exodusService;
 	
 	@RequestMapping(value = "/foo", method = RequestMethod.POST, consumes = "application/json")
 	public ExodusResponse postBody(@RequestBody Teams teams) {
-		ExodusService exodusService = new ExodusService(exodusConfig);
 		log.info("App Name is " + exodusConfig.getAppname());
 		return exodusService.process(teams);
 	}

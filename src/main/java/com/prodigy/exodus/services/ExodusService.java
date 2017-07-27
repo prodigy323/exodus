@@ -13,12 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ExodusService {
 	
-	private final ExodusConfig exodusConfig;
-	
 	@Autowired
-    public ExodusService(ExodusConfig exodusConfig) {
-        this.exodusConfig = exodusConfig;
-    }
+	private ExodusConfig exodusConfig;
 	
 	public ExodusResponse process(Teams teams) {
 		ExodusResponse exodusResponse = new ExodusResponse();
