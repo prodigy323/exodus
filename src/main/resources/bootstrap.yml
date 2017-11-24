@@ -12,3 +12,8 @@ management:
 app:
   exodus:
     message: Config from local bootstrap.yml
+    rabbit:
+      responseMessage: Sent message to Rabbit queue
+      queue: exodus-queue
+      exchange: exodus-exchange
+      routingkey: exodus-routingkey
