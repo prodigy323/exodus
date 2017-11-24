@@ -1,50 +1,68 @@
 package com.prodigy.exodus.services;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.prodigy.exodus.config.ExodusConfig;
+import com.google.common.collect.ImmutableList;
 import com.prodigy.exodus.models.ExodusResponse;
 import com.prodigy.exodus.models.Heroes;
 import com.prodigy.exodus.models.Teams;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExodusServiceTest {
-
-	private @Mock ExodusConfig exodusConfigMock;
-	private @Mock Teams teamsMock;
-	private @Mock List<Heroes> heroesListMock;
-	private @Mock Heroes heroesMock;
 	
+	private Teams team;
+
 	@InjectMocks
-	private ExodusService sut;
+	private ExodusService underTest;
+	
+	@Before
+	public void setUp() throws Exception {
+		Heroes ironman = Heroes.builder()
+				.name("Tony Stark")
+				.codename("Ironman")
+				.build();
+		
+		Heroes captain = Heroes.builder()
+				.name("Steve Rogers")
+				.codename("Captain America")
+				.build();
+		
+		Heroes wolverine = Heroes.builder()
+				.name("James Logan")
+				.codename("Wolverine")
+				.build();
+		
+		Heroes cyclops = Heroes.builder()
+				.name("Scott Summers")
+				.codename("Cyclops")
+				.build();
+		
+		List<Heroes> avengersList = ImmutableList.of(ironman, captain);
+		List<Heroes> xmenList = ImmutableList.of(wolverine, cyclops);
+		
+		team = Teams.builder()
+				.avengers(avengersList)
+				.xmen(xmenList)
+				.build();
+	}
 	
 	@Test
 	public void process_ShouldReturnExodusResponse() {
 		// given
-		when(exodusConfigMock.getComment()).thenReturn("This is a comment.");
-		when(teamsMock.getAvengers()).thenReturn(heroesListMock);
-		when(heroesListMock.get(anyInt())).thenReturn(heroesMock);
-		when(heroesMock.getName()).thenReturn("Tony Stark");
-		when(heroesMock.getCodename()).thenReturn("IronMan");
 		
 		// when
-		ExodusResponse response = sut.process(teamsMock);
+		ExodusResponse response = underTest.process(team);
 		
 		// then
 		assertEquals("Tony Stark", response.getName());
-		assertEquals("IronMan", response.getCodename());
-		verify(teamsMock, times(2)).getAvengers();
+		assertEquals("Ironman", response.getCodename());
 	}
 }

@@ -1,33 +1,36 @@
 package com.prodigy.exodus.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.prodigy.exodus.config.ExodusConfig;
 import com.prodigy.exodus.models.ExodusResponse;
 import com.prodigy.exodus.models.Teams;
 import com.prodigy.exodus.services.ExodusService;
+import com.prodigy.exodus.services.MessageService;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
+@RefreshScope
 @RestController
 @RequestMapping("/api")
 public class ExodusController {
 	
 	@Autowired
-	private ExodusConfig exodusConfig;
+	private ExodusService exodusService;
 	
 	@Autowired
-	private ExodusService exodusService;
+	private MessageService msgSvc;
 	
 	@RequestMapping(value = "/foo", method = RequestMethod.POST, consumes = "application/json")
 	public ExodusResponse postBody(@RequestBody Teams teams) {
-		log.info("App Name is " + exodusConfig.getAppname());
 		return exodusService.process(teams);
 	}
+
+    @RequestMapping("/message")
+    public String getMessage() {
+        return msgSvc.getMessage();
+    }
 
 }

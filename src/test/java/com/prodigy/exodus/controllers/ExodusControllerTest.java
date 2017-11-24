@@ -1,75 +1,44 @@
 package com.prodigy.exodus.controllers;
 
-import static org.mockito.Matchers.anyObject;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.ResourceUtils;
-import org.springframework.web.context.WebApplicationContext;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prodigy.exodus.models.ExodusResponse;
+import com.prodigy.exodus.models.Teams;
 import com.prodigy.exodus.services.ExodusService;
+import com.prodigy.exodus.services.MessageService;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
 public class ExodusControllerTest {
 
-	private MockMvc mockMvc;
+	@Mock private ExodusService exodusServiceMock;
+	@Mock private MessageService msgServiceMock;
+	@Mock private Teams teamsMock;
+	@Mock private ExodusResponse exodusResponseMock;
 	
-	@MockBean
-	private ExodusService exodusServiceMock;
+	@InjectMocks
+	private ExodusController underTest;
 	
-	@Autowired
-	private WebApplicationContext webApplicationContext;
-
 	@Before
 	public void setup() throws Exception {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		
-		ObjectMapper mapper = new ObjectMapper();
-        InputStream is = ExodusController.class.getResourceAsStream("/sampleResponse.json");
-        ExodusResponse res = mapper.readValue(is, ExodusResponse.class);
-        Mockito.when(exodusServiceMock.process(anyObject())).thenReturn(res);
-        is.close();
+		// do nothing for now
 	}
 	
 	@Test
 	public void testPostBody() throws Exception {
-        File requestData = ResourceUtils.getFile("classpath:samplePost.json");
-        String requestContent = new String(Files.readAllBytes(requestData.toPath()));
-        
-		RequestBuilder requestBuilder = MockMvcRequestBuilders
-				.post("/api/foo")
-				.accept(MediaType.APPLICATION_JSON)
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestContent);
-
-		mockMvc.perform(requestBuilder)
-			.andExpect(status().isOk())
-	        .andExpect(jsonPath("$.name").value("Tony Stark"))
-	        .andExpect(jsonPath("$.codename").value("Ironman"));
-
-		Mockito.verify(exodusServiceMock, Mockito.times(1)).process(anyObject());
+		when(exodusServiceMock.process(teamsMock)).thenReturn(exodusResponseMock);
+		underTest.postBody(teamsMock);
 	}
-
+	
+	@Test
+	public void testMessage() throws Exception {
+		underTest.getMessage();
+	}
+	
 }

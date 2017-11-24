@@ -10,5 +10,6 @@ public class ExodusConfig {
 	
 	private String appname;
 	private String comment;
+	private String message;
 
 }
